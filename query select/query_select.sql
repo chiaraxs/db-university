@@ -3,6 +3,11 @@ SELECT *
 FROM `students`
 WHERE `date_of_birth` LIKE '1990-%-%';
 
+-- alternativa più veloce --
+SELECT * 
+FROM `students`
+WHERE `date_of_birth` LIKE '1990%';
+
 -- alternativa --
 SELECT *
 FROM `students`
@@ -20,11 +25,27 @@ SELECT *
 FROM `students`
 WHERE `date_of_birth` < '1992-01-01';
 
+-- alternativa --
+SELECT * 
+FROM `students`
+WHERE YEAR(CURRENT_DATE()) - YEAR(`date_of_birth`) > 30;
+
+-- alternativa --
+SELECT * 
+FROM `students`
+WHERE TIMESTAMPDIFF(YEAR, `date of birth`, CURRENT_DATE()) > 30;
+
 
 -- 4. Selezionare tutti i corsi del primo semestre del primo anno di un qualsiasi corso di laurea (286) --
 SELECT * 
 FROM `courses`
 WHERE `period` = 'I semestre' 
+        AND `year` = 1;
+
+-- alternativa --
+SELECT * 
+FROM `courses`
+WHERE `period` LIKE 'I %' 
         AND `year` = 1;
 
 
@@ -33,6 +54,12 @@ SELECT *
 FROM `exams`
 WHERE `hour` > '14:00:00' 
         AND `date` = '20-06-20';
+
+-- alternativa --
+SELECT *
+FROM `exams`
+WHERE `date` = '2020-06-20'
+	AND TIME(`hour`) > '14';
 
 
 -- 6. Selezionare tutti i corsi di laurea magistrale (38) --
@@ -45,8 +72,17 @@ WHERE `level` = 'magistrale';
 SELECT COUNT(`id`)
 FROM `departments`;
 
+-- alternativa con specifica -- 
+SELECT COUNT(`id`) as `departments_numbers`
+FROM `departments`;
+
 
 -- 8. Quanti sono gli insegnanti che non hanno un numero di telefono? (50) --
-SELECT COUNT(`id`) 
+SELECT COUNT(`id`)
+FROM `teachers`
+WHERE `phone` IS NULL;
+
+-- alternativa con specifica --
+SELECT COUNT(`id`) as `no_phone_teacher`
 FROM `teachers`
 WHERE `phone` IS NULL;
