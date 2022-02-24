@@ -6,18 +6,20 @@ GROUP BY YEAR(`enrolment_date`);
 
 -- 2. Contare gli insegnanti che hanno l'ufficio nello stesso edificio --
 -- alternativa con office_number --
-SELECT COUNT(`id`) AS 'same_office_teachers', `office_number`
+SELECT COUNT(`id`) AS 'Teachers x office', `office_number`
 FROM `teachers` 
-GROUP BY (`office_number`);
+GROUP BY (`office_number`)
+HAVING COUNT(id) > 1;
 
 -- alternativa con office_address --
-SELECT COUNT(`id`) AS 'same_office_teachers', `office_address`
+SELECT COUNT(`id`) AS 'Teachers x office', `office_address`
 FROM `teachers` 
-GROUP BY (`office_address`);
+GROUP BY (`office_address`)
+HAVING COUNT(id) > 1;
 
 
 -- 3. Calcolare la media dei voti di ogni appello d'esame --
-SELECT AVG(`vote`) AS 'average_vote', `exam_id`
+SELECT ROUND (AVG(`vote`))  AS 'average_vote', `exam_id`
 FROM `exam_student`
 GROUP BY (`exam_id`);
 
